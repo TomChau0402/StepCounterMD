@@ -7,16 +7,19 @@ package com.example.stepcounter.presentation
 
 import android.health.connect.datatypes.ExercisePerformanceGoal
 import android.os.Bundle
+import android.widget.Space
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.content.contentReceiver
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -26,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
@@ -62,17 +66,18 @@ fun WearFitnessApp(){
     var stepsGoal by remember { mutableIntStateOf(10000) }
     var caloriesGoal by remember { mutableIntStateOf(800) }
 
-    DailyProgressScreen(
-        steps = steps,
-        calories = calories,
-        stepsGoal= stepsGoal,
-        caloriesGoal = caloriesGoal,
-        onAddStep = {
-            steps++
-        calories++
-    }
-    )
-   HeartRateScreen()
+   // DailyProgressScreen(
+      //  steps = steps,
+      //  calories = calories,
+     //   stepsGoal= stepsGoal,
+     //   caloriesGoal = caloriesGoal,
+     //   onAddStep = {
+    //        steps++
+    //    calories++
+  //  }
+ //   )
+  // HeartRateScreen()
+   ModifyGoalScreen()
 }
 @Composable
 fun DailyProgressScreen(
@@ -151,5 +156,60 @@ fun HeartRateScreen(){
             style = MaterialTheme.typography.displaySmall
         )
     }
+}
+@Composable
+fun ModifyGoalScreen(){
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "Modify Goal",
+            color = Color.White,
+            style = MaterialTheme.typography.titleMedium
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(text = "Steps", color= Color.White)
 
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Button(onClick = {}) {
+                Text("-")
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = "10000",
+                color = Color.White
+            )
+                    Button(onClick = {}) {
+                Text("+")
+            }
+        }
+        Spacer(modifier = Modifier.height(6.dp))
+        Text(text = "Calories", color= Color.White)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+
+
+            Spacer(modifier = Modifier.width(6.dp))
+                Button(onClick = {}) {
+                    Text("-")
+                }
+            Text(
+                text = "800",
+                color = Color.White
+            )
+            Spacer(modifier = Modifier.width(6.dp))
+            Button(onClick = {}) {
+                Text("+")
+            }
+        }
+    }
 }
