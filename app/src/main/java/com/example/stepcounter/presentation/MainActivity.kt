@@ -5,6 +5,7 @@
 
 package com.example.stepcounter.presentation
 
+import android.health.connect.datatypes.ExercisePerformanceGoal
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -49,68 +50,76 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             StepCounterTheme {
-                StepCounterScreen()
+                WearFitnessApp()
             }
         }
     }
 }
-
 @Composable
-fun StepCounterScreen() {
+fun WearFitnessApp(){
     var steps by remember { mutableIntStateOf(30) }
+    var calories by remember { mutableIntStateOf(25) }
+    var stepsGoal by remember { mutableIntStateOf(10000) }
+    var caloriesGoal by remember { mutableIntStateOf(800) }
 
+    DailyProgressScreen(
+        steps = steps,
+        calories = calories,
+        stepsGoal= stepsGoal,
+        caloriesGoal = caloriesGoal,
+        onAddStep = {
+            steps++
+        calories++
+    }
+    )
+   HeartRateScreen()
+}
+@Composable
+fun DailyProgressScreen(
+    steps: Int,
+    calories: Int,
+    stepsGoal: Int,
+    caloriesGoal: Int,
+    onAddStep: ()-> Unit
+
+){
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black),
-        verticalArrangement = Arrangement.Top,
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-        // Daily Goals Section
+        Spacer(modifier = Modifier.height(20.dp))
         Text(
-            text = "Daily Goals",
+            text = "Daily Progress",
             color = Color.White,
-            style = MaterialTheme.typography.labelMedium
+            style = MaterialTheme.typography.titleMedium
         )
         Text(
-            text = "10,000 steps / 500 cal",
+            text = "Steps",color = Color.White)
+
+        Text(
+            text = "$steps / $stepsGoal",
             color = Color.White,
-            style = MaterialTheme.typography.bodySmall
+            style = MaterialTheme.typography.titleMedium
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // Current Stats
-
-        Text(
-            text = "Calories",
-            color = Color.White,
-            style = MaterialTheme.typography.labelLarge
-        )
-        Text(
-            text = "25 kcal",
-            color = Color.White,
-            style = MaterialTheme.typography.titleMedium
-        )
-        Text(
-            text = "Steps Today",
-            color = Color.White,
-            style = MaterialTheme.typography.titleMedium
-        )
-        Text(
-            text = steps.toString(),
-            color = Color.White,
-            style = MaterialTheme.typography.titleMedium
-        )
-        // Push button to bottom
-        Spacer(modifier = Modifier.height(14.dp))
-
+        Text(text = "Calories",color = Color.White)
+              Text(
+                  text = "$calories / $caloriesGoal",
+                  color = Color.White,
+                  style = MaterialTheme.typography.titleMedium
+              )
+        Spacer(modifier = Modifier.height(12.dp))
         Button(
             onClick = {
-                steps++
+
 
             },
+
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.White,   // Gold
                 contentColor = Color.Black
@@ -119,4 +128,28 @@ fun StepCounterScreen() {
             Text("Add Step")
         }
     }
+}
+@Composable
+fun HeartRateScreen(){
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "Heart Rate",
+            color = Color.White,
+            style = MaterialTheme.typography.titleMedium
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text = "72 BPM <3",
+            color = Color.White,
+            style = MaterialTheme.typography.displaySmall
+        )
+    }
+
 }
