@@ -49,6 +49,8 @@ import androidx.wear.compose.ui.tooling.preview.WearPreviewFontScales
 import com.example.stepcounter.R
 import com.example.stepcounter.presentation.theme.StepCounterTheme
 
+
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,18 +68,25 @@ fun WearFitnessApp(){
     var stepsGoal by remember { mutableIntStateOf(10000) }
     var caloriesGoal by remember { mutableIntStateOf(800) }
 
-   // DailyProgressScreen(
-      //  steps = steps,
-      //  calories = calories,
-     //   stepsGoal= stepsGoal,
-     //   caloriesGoal = caloriesGoal,
-     //   onAddStep = {
-    //        steps++
-    //    calories++
-  //  }
- //   )
-  // HeartRateScreen()
-   ModifyGoalScreen()
+    DailyProgressScreen(
+       steps = steps,
+        calories = calories,
+        stepsGoal= stepsGoal,
+        caloriesGoal = caloriesGoal,
+        onAddStep = {
+          steps++
+        calories++
+    }
+    )
+   HeartRateScreen()
+   ModifyGoalScreen(
+       stepsGoal= stepsGoal,
+       caloriesGoal = caloriesGoal,
+       onDecreaseStepGoal = { stepsGoal -= 500},
+       onIncreaseStepsGoal= {stepsGoal += 500},
+       onDecreaseCaloriesGoal= { caloriesGoal-= 50},
+       onIncreaseCaloriesGoal ={ caloriesGoal += 50}
+   )
 }
 @Composable
 fun DailyProgressScreen(
@@ -157,8 +166,16 @@ fun HeartRateScreen(){
         )
     }
 }
+
 @Composable
-fun ModifyGoalScreen(){
+fun ModifyGoalScreen(
+    stepsGoal: Int,
+    caloriesGoal: Int,
+    onDecreaseStepGoal: () -> Unit,
+    onIncreaseStepsGoal:() -> Unit,
+    onDecreaseCaloriesGoal: ()-> Unit,
+    onIncreaseCaloriesGoal: ()-> Unit
+){
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -178,15 +195,15 @@ fun ModifyGoalScreen(){
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Button(onClick = {}) {
+            Button(onClick = onDecreaseStepGoal) {
                 Text("-")
             }
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "10000",
+                text = "$stepsGoal",
                 color = Color.White
             )
-                    Button(onClick = {}) {
+                    Button(onClick = onIncreaseStepsGoal) {
                 Text("+")
             }
         }
@@ -199,15 +216,15 @@ fun ModifyGoalScreen(){
 
 
             Spacer(modifier = Modifier.width(6.dp))
-                Button(onClick = {}) {
+                Button(onClick = onDecreaseCaloriesGoal) {
                     Text("-")
                 }
             Text(
-                text = "800",
+                text = "$caloriesGoal",
                 color = Color.White
             )
             Spacer(modifier = Modifier.width(6.dp))
-            Button(onClick = {}) {
+            Button(onClick = onIncreaseCaloriesGoal) {
                 Text("+")
             }
         }
